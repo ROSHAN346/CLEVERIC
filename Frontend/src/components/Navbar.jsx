@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import clover from '../../public/download.png'
 import Login from './Login.jsx';
+import { useAuth } from '../context/AuthProvider.jsx';
+import Logout from './Logout.jsx';
 
 
 
 function Navbar() {
+
+    const [authUser, setAuthUser] = useAuth()
+    console.log(authUser);
+
     const [theme, setTheme] = useState(
         localStorage.getItem("theme") ? localStorage.getItem("theme") : "light"
     );
@@ -38,16 +44,16 @@ function Navbar() {
     }, [])
     const navItems =
         <>
-            <li>
+            <li className=' hover:bg-green-500 rounded-xl ease-in-out'>
                 <a href='/'>Home</a>
             </li>
-            <li>
+            <li className=' hover:bg-green-500 rounded-xl ease-in-out'>
                 <a href='/course' >Course</a>
             </li>
-            <li>
+            <li className=' hover:bg-green-500 rounded-xl ease-in-out'>
                 <a href='/contact' >Contact</a>
             </li>
-            <li>
+            <li className=' hover:bg-green-500 rounded-xl ease-in-out'>
                 <a href='/about' >About</a>
             </li>
         </>
@@ -55,7 +61,7 @@ function Navbar() {
         <>
 
             <div
-                className={`max-w-screen-2xl container mx-auto md:px-20 px-4 dark:bg-slate-900 dark:text-white fixed top-0 left-0 right-0 z-50 ${
+                className={`max-w-screen-2xl container mx-auto md:px-20 px-4 dark:bg-slate-800 dark:text-white fixed top-0 left-0 right-0 z-50 ${
                     sticky ? 
                     "sticky-navbar pt-4 md:pt-0 shadow-md dark:bg-slate-800 dark:text-white bg-green-300 duration-400 transition-all ease-in-out" : ""}`}>
                 <div className="navbar ">
@@ -86,13 +92,13 @@ function Navbar() {
 
                     <div className="navbar-end space-x-3 ">
                         <div className="navbar-center hidden lg:flex font-serif font-extrabold text-black  dark:bg-slate-900 dark:text-white ">
-                            <ul className="menu menu-horizontal px-1  dark:bg-slate-800 dark:text-white"> {navItems}
+                            <ul className="menu menu-horizontal px-1  dark:bg-slate-800 dark:text-white "> {navItems}
                             </ul>
                         </div>
 
                         <div className='hidden md:block '>
 
-                            <label className="input input-bordered flex items-center gap-2 bg-white ">
+                            <label className="input input-bordered flex items-center gap-2 bg-white text-black ">
                                 <input type="text" className="grow" placeholder="Search" />
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -135,15 +141,16 @@ function Navbar() {
                             </label>
                         </div>
 
-
-                        <div>
+                        {authUser? <Logout/>:
+                        ( <div>
                             <Login/>
                             <a className="btn text-white"
                             onClick={()=> 
                                 document.getElementById("my_modal_5").showModal()
                             }
                             >Login</a>
-                        </div>
+                        </div> )
+                        }
                     </div>
 
 

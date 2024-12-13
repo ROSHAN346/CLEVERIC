@@ -1,13 +1,12 @@
 import React from 'react'
 
 function Card({item}) {
-    console.log(item);
     return (
         <>
-            <div className='mt-2 my-3 p-3'>
-                <div className="card  w-92  shadow-xl hover:scale-105 duration-200 dark:border">
-                    <figure>
-                        <img
+            <div className='mt-2 my-3 p-3 '>
+                <div className="card  w-92  shadow-xl hover:scale-105 duration-200 dark:border ">
+                    <figure className=''>
+                        <img style={{ height: '300px', width: '450px' , objectFit: 'cover'}}
                             src={item.image}
                             alt="Shoes" />
                     </figure>

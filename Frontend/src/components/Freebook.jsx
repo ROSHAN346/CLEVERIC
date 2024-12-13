@@ -1,14 +1,28 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import list from '../../public/list.json'
 import Slider from "react-slick";
 import Card from "./Card"
+import axios from 'axios';
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 
 function Freebook() {
-    const filterData = list.filter((data) => data.category === "free");
+    const [book,setBook] = useState([]);
+  useEffect(() =>{
+     const getBook = async ()=>{
+      try{
+       const res = await axios.get('http://localhost:4001/book');
+       console.log(res.data);
+       const data = res.data.filter((data) => data.category === "free");
+       setBook(res.data);
+      }catch(error){
+        console.log(error);
+      }
+     };
+     getBook();
+  },[])
     // console.log(filterData);
 
     var settings = {
@@ -16,7 +30,7 @@ function Freebook() {
         infinite: false,
         speed: 500,
         slidesToShow: 3,
-        slidesToScroll: 4,
+        slidesToScroll: 3,
         initialSlide: 0,
         responsive: [
             {
@@ -55,10 +69,10 @@ function Freebook() {
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque eligendi libero sit, laudantium, earum consequuntur aliquid neque rerum sed cum debitis. Facere dolor unde nemo deserunt esse totam velit doloremque?</p>
                 </div>
 
-                <div className=' dark:bg-slate-900 dark:text-white'>
-                    <Slider {...settings}>
-                        {filterData.map((item) => (
-                            <Card className="mr-2" item={item} key={item.id} />
+                <div className=' dark:bg-slate-900 dark:text-white '>
+                    <Slider className='' {...settings}>
+                        {book.map((item) => (
+                            <Card className="mr-2 cover" item={item} key={item.id}  />
                         ))}
                     </Slider>
                 </div>
